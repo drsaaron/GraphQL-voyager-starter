@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Voyager</title>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/graphql-voyager@2.0.0/dist/voyager.css" />
+        <script src="https://cdn.jsdelivr.net/npm/graphql-voyager@2.0.0/dist/voyager.standalone.js"></script> 
+
+    </head>
+    <body>
+        <div id="voyager">Loading...</div>
+        <script type="module">
+            const { renderVoyager, voyagerIntrospectionQuery } = GraphQLVoyager;
+            
+            async function fetchIntrospection() {
+                console.log("getching introspection");
+                const response = await fetch("voyager/mapping", {method: 'get'})
+                        .then(response => response.json())
+                        .then(graphQLMapping => fetch(graphQLMapping.mapping,
+                                                {
+                                                    method: 'post',
+                                                    headers: {
+                                                        Accept: 'application/json',
+                                                        'Content-Type': 'application/json'
+                                                    },
+                                                body: JSON.stringify({ query: voyagerIntrospectionQuery })
+                                                }));
+                return response.json();
+            }
+            
+            const introspection = fetchIntrospection();
+            
+            renderVoyager(document.getElementById('voyager'), {
+                introspection
+            });
+        </script> 
+    </body>
+</html>

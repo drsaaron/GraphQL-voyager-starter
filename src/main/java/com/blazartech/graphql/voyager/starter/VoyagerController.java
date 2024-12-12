@@ -6,28 +6,24 @@
 package com.blazartech.graphql.voyager.starter;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
- * a controller to provide a REST service that will return the path of the 
- * GraphQL server.  Basically, I can't figure out how to get that variable
- * into the static HTML so we'll for now get it by a REST call.
+ * a controller to provide the voyager template
  * 
  * @author AAR1069
  */
-@RestController
+@Controller
 public class VoyagerController {
     
     @Value("${graphql.servlet.mapping}")
     private String graphQLMapping;
     
-    public static record ServerPathResponse(String mapping) {
-                
-    }
-    
-    @GetMapping(value = "${graphql.root}/voyager/mapping")
-    public ServerPathResponse getServerPath() {
-        return new ServerPathResponse(graphQLMapping);
+    @GetMapping(value = "${graphql.root}/voyager")
+    public String getServerPath(Model model) {
+        model.addAttribute("graphQLMapping", graphQLMapping);
+        return "voyager";
     }
 }

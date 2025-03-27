@@ -4,7 +4,6 @@
  */
 package com.blazartech.graphql.voyager.starter;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,8 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {
     VoyagerControllerTest.VoyagerControllerTestConfiguration.class
 })
-@Slf4j
 public class VoyagerControllerTest {
+    
+    private static final Logger log = LoggerFactory.getLogger(VoyagerControllerTest.class);
     
     @Configuration
     @PropertySource("classpath:unittest.properties") 
